@@ -1,10 +1,13 @@
+import { useParams } from "react-router-dom";
 import { config } from "../../constants";
 import Product from "../../entities/Product";
+import { PRODUCTS } from "../../static-content";
 
-interface Props{
-  product: Product;
-}
-const SingleProduct = ({product}: Props) => {
+
+const SingleProduct = () => {
+
+  const {id} = useParams();
+  const product: Product = PRODUCTS.find(product => product.id == id!)!;
   return (
     <div className="single-product">
       <div className="columns column-1">

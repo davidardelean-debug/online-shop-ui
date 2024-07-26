@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { config } from "../../constants";
 import Product from "../../entities/Product";
 
@@ -14,7 +15,9 @@ const ProductListingItem = ({ product }: Props) => {
         <h4 className="product-title">{product.name}</h4>
         <div className="atc-wrapper">
           <span className="price">$ {product.price}</span>
-          <a className="atc-btn" href="">Add to cart</a>
+          <Link to={`/products/` + product.id} className="atc-btn">
+            Add to cart
+          </Link>
         </div>
       </div>
     </div>

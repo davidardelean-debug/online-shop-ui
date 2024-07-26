@@ -1,4 +1,6 @@
-export const PRODUCTS = [
+import Product from "./entities/Product";
+
+export const PRODUCTS: Product[] = [
   {
     id: "041aa5c8-203c-425d-b86e-c46ec469c0c2",
     name: "Shoes",

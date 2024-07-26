@@ -1,16 +1,12 @@
-import { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 import Footer from "../footer/footer";
 import Header from "../header/header";
 
-interface Props {
-  children: ReactNode | ReactNode[];
-}
-
-const PageLayout = ({ children }: Props) => {
+const PageLayout = () => {
   return (
     <div className="page-layout">
       <Header />
-      <div className="content-wrapper">{children}</div>
+      <div className="content-wrapper">{<Outlet />}</div>
       <Footer />
     </div>
   );

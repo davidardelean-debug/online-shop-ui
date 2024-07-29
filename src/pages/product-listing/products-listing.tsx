@@ -1,5 +1,5 @@
-import Product from "../../entities/Product"
-import ProductListingItem from "../product-listing-item/product-listing-item"
+import ProductListingItem from "../../components/product-listing-item/product-listing-item"
+import Product from "../../entities/product"
 
 
 const ProductsListing = (props: {products:Product[]}) => {

@@ -10,7 +10,7 @@
   height: 60px;
   display: flex;
   align-items: center;
-  padding:0 20px;
+  padding: 0 20px;
 
   .site-title {
     margin: 0;
@@ -23,17 +23,48 @@
     justify-content: space-between;
     width: 100%;
 
-    a.login-btn{
+    .action-panel {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+
+      .cart-widget-icon{
+        position: relative;
+        display: flex;
+        align-items: center;
+        img {
+          filter: brightness(0) saturate(100%) invert(50%) sepia(11%)
+            saturate(1272%) hue-rotate(115deg) brightness(91%) contrast(91%);
+        }
+        .cart-item-number{
+          font-size: 12px;
+          border-radius: 100px;
+          background-color: var(--white);
+          color: var(--primary-color);
+          width: 20px;
+          height: 20px;
+          position: absolute;
+          z-index: 5;
+          top: -10px;
+          right: -15px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+
+      a.login-btn {
         color: var(--white);
         background-color: var(--primary-color);
-        padding:5px 15px;
+        padding: 5px 15px;
         border-radius: 15px;
         text-decoration: none;
+      }
     }
 
-    a{
-     text-decoration: none;
-     color: inherit;
+    a {
+      text-decoration: none;
+      color: inherit;
     }
   }
 }

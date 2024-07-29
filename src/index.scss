@@ -1,0 +1,53 @@
+@use 'components/header/header.module.scss';
+@use 'components/footer/footer.module.scss';
+@use 'pages/page-layout/page-layout.module.scss';
+@use 'components/product-listing-item/product-listing-item.module.scss';
+@use 'pages/product-listing/products-listing.module.scss';
+@use 'pages/single-product/single-product-module.scss';
+@use 'pages/cart/cart.module.scss';
+@use 'components/cart-row/cart-row.module.scss';
+
+@font-face {
+  font-family: "Poppins";
+  src: url("src/assets/fonts/Poppins-Regular.ttf") format("truetype");
+}
+
+:root{
+  --primary-color:#4c8577;
+  --secondary-color: #a6ece0;
+  --white: #fff;
+  --black: #000;
+  --red: #96031A;
+  --background-color: #eff1f3;
+  --font-family: "Poppins";
+  --max-width-desktop:1340px;
+}
+
+body, html {
+  font-family: var(--font-family);
+  background-color:var(--background-color);
+  color: var(--primary-color);
+  margin: 0;
+  width: 100%!important;
+  box-sizing: border-box;
+  overflow-x: clip;
+}
+
+h1{
+  margin-top: 0;
+}
+
+.btn {
+  all: unset;
+  font-family: var(--font-family);
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-radius: 15px;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+

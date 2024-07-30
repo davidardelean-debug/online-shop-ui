@@ -8,7 +8,11 @@
     padding: 10px;
     margin: 0 -10px;
     border-radius: 15px;
+    text-decoration: none;
 
+    a{
+        display: flex;
+    }
     img{
         border-radius: 5px;
     }

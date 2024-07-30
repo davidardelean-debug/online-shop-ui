@@ -1,32 +1,47 @@
-import axios, { AxiosRequestConfig } from "axios";
+import { UUID } from "crypto";
+import { BASE_API_URL } from "../constants";
+import { Order } from "../entities/order";
 
-export interface FetchResponse<T> {
-  count: number;
-  next: string | null;
-  results: T[];
-}
-
-export const axiosInstance = axios.create({
-  baseURL: "localhost:3333",
-});
-
-class APIClient<T> {
+class APIClient {
+  baseUrl = BASE_API_URL;
   endpoint: string;
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;
   }
 
-  getAll = (config?: AxiosRequestConfig) => {
-    return axiosInstance
-      .get<FetchResponse<T>>(this.endpoint, config)
-      .then((res) => res.data);
+  getAll = async (config?: RequestInit) => {
+    const response = await fetch(this.baseUrl + this.endpoint, config);
+    if (!response.ok) throw new Error(`HTTP error: ${response.statusText}`);
+    return response;
   };
 
-  get = (id: number | string) => {
-    return axiosInstance
-      .get<T>(this.endpoint + "/" + id)
-      .then((res) => res.data);
+  get = async (id?: string | number | UUID, config?: RequestInit) => {
+    const response = await fetch(this.baseUrl + this.endpoint + id, config);
+    if (!response.ok) throw new Error(`HTTP error: ${response.statusText}`);
+    return response;
+  };
+
+  remove = async (id?: string | number | UUID, config?: RequestInit) => {
+    const response = await fetch(this.baseUrl + this.endpoint + id, {
+      ...config,
+      method: "DELETE",
+    });
+    if (!response.ok) throw new Error(`HTTP error: ${response.statusText}`);
+    return response;
+  };
+
+  addOrder = async (body: Order, config?: RequestInit) => {
+    const response = await fetch(this.baseUrl + this.endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+      ...config,
+    });
+    if (!response.ok) throw new Error(`HTTP error: ${response.statusText}`);
+    return response;
   };
 }
 export default APIClient;

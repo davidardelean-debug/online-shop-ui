@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { CartItem } from "../../entities/cart-item";
 import CartService from "../../services/cart-service";
 
@@ -19,7 +20,7 @@ const CartRow = ({ cartItem, cart, setCart }: Props) => {
   };
   return (
     <div className="cart-row">
-      <img src={product.imageUrl} width="30" height="30" />
+      <Link to={`/products/${product.id}`}><img src={product.imageUrl} width="30" height="30" /></Link>
       <span className="product-name">{product.name}</span>
       <span className="product-category">{product.category.name}</span>
       <input

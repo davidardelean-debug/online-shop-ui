@@ -1,16 +1,24 @@
-import ProductListingItem from "../../components/product-listing-item/product-listing-item"
-import Product from "../../entities/product"
+import { useContext } from "react";
+import ProductListingItem from "../../components/product-listing-item/product-listing-item";
+import { ProductContext } from "../../providers/products-provider";
 
-
-const ProductsListing = (props: {products:Product[]}) => {
+const ProductsListing = () => {
+  const { contextProducts:products, error, isLoading } = useContext(ProductContext);
   return (
     <div>
-    <h1>Shop</h1>
-    <div className="products-listing-grid">
-        {props.products.map((product)=> <ProductListingItem key={product.id} product={product}/>)}
+      <h1>Shop</h1>
+      {isLoading && <div className="loader">Loading products...</div>}
+      {products ? (
+        <div className="products-listing-grid">
+          {products.map((product) => (
+            <ProductListingItem key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        error && <div className="error">{error}</div>
+      )}
     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default ProductsListing
+export default ProductsListing;

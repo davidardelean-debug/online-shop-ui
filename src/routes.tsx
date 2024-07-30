@@ -1,9 +1,9 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Cart from "./pages/cart/cart";
+import Checkout from "./pages/checkout/checkout";
 import PageLayout from "./pages/page-layout/page-layout";
 import ProductsListing from "./pages/product-listing/products-listing";
 import SingleProduct from "./pages/single-product/single-product";
-import { PRODUCTS } from "./static-content";
 
 const router = createBrowserRouter([
   {
@@ -14,16 +14,19 @@ const router = createBrowserRouter([
     path: "/products",
     element: <PageLayout />,
     children: [
-      { index: true, element: <ProductsListing products={PRODUCTS} /> },
+      { index: true, element: <ProductsListing /> },
       { path: ":id", element: <SingleProduct /> },
     ],
   },
   {
     path: "/cart",
-    element:<PageLayout/>,
-    children:[
-      {index:true, element: <Cart/>}
-    ]
+    element: <PageLayout />,
+    children: [{ index: true, element: <Cart /> }],
+  },
+  {
+    path: "/checkout",
+    element: <PageLayout />,
+    children: [{ index: true, element: <Checkout /> }],
   },
 ]);
 

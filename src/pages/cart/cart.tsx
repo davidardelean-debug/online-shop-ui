@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import CartRow from "../../components/cart-row/cart-row";
 import EmptyCart from "../../components/empty-cart/empty-cart";
 import { CartContextObject } from "../../entities/cart-context-object";
@@ -6,6 +7,7 @@ import { CartContext } from "../../providers/cart-provider";
 
 const Cart = () => {
   const { cart, setCart } = useContext<CartContextObject>(CartContext);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -45,7 +47,12 @@ const Cart = () => {
             </div>
           </div>
 
-          <button className="btn checkout-btn">Chekout</button>
+          <button
+            className="btn checkout-btn"
+            onClick={() => navigate("/checkout")}
+          >
+            Chekout
+          </button>
         </div>
       )}
     </>

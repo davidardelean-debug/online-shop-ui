@@ -6,6 +6,7 @@
 @use 'pages/single-product/single-product-module.scss';
 @use 'pages/cart/cart.module.scss';
 @use 'components/cart-row/cart-row.module.scss';
+@use 'pages/checkout/checkout.module.scss';
 
 @font-face {
   font-family: "Poppins";
@@ -35,6 +36,19 @@ body, html {
 
 h1{
   margin-top: 0;
+}
+
+img{
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+input[type="text"], input[type="number"]{
+  all: unset;
+  border-radius: 15px;
+  border: 2px solid var(--primary-color);
+  padding: 0 10px;
+  font-family: var(--font-family);
 }
 
 .btn {

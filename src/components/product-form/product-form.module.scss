@@ -1,0 +1,11 @@
+.product-form{
+    display: flex;
+    flex-direction: column;
+    gap:30px;
+
+    label{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+}

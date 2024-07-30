@@ -47,7 +47,7 @@ const SingleProduct = () => {
                 <div className="actions-wrapper">
                   <h1 className="product-title">{product.name}</h1>
                   <div>
-                    <button className="edit-btn btn">Edit</button>
+                    <button className="edit-btn btn" onClick={()=> navigate('./edit')}>Edit</button>
                     <button className="delete-btn btn" onClick={handleDelete}>
                       Delete
                     </button>

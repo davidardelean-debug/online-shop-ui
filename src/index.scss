@@ -7,6 +7,7 @@
 @use 'pages/cart/cart.module.scss';
 @use 'components/cart-row/cart-row.module.scss';
 @use 'pages/checkout/checkout.module.scss';
+@use 'components/product-form/product-form.module.scss';
 
 @font-face {
   font-family: "Poppins";
@@ -43,7 +44,7 @@ img{
   border-radius: 15px;
 }
 
-input[type="text"], input[type="number"]{
+input:not([type="submit"]){
   all: unset;
   border-radius: 15px;
   border: 2px solid var(--primary-color);

@@ -1,0 +1,10 @@
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 100px;
+  max-width: var(--max-width-desktop);
+  margin: 0 auto;
+  padding: 80px 20px;
+  min-height: 50vh;
+}

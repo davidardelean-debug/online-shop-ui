@@ -1,0 +1,25 @@
+.order-details {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--secondary-color);
+  color: var(--white);
+  padding: 20px;
+  border-radius: 15px;
+  gap: 20px;
+
+  .order-item {
+    display: grid;
+    grid-template-columns: 25fr 25fr 30fr 25fr ;
+    align-items: center;
+    gap:20px;
+    background-color: var(--primary-color);
+    border-radius: 15px;
+  }
+
+  .order-total{
+    color:var(--primary-color);
+    font-weight: bold;
+    text-align: end;
+    font-size: 24px;
+  }
+}

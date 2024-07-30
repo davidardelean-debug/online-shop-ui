@@ -1,0 +1,42 @@
+.cart-row{
+    display: grid;
+    grid-template-columns: 25fr 25fr 30fr 25fr 25fr 25fr 25fr;
+    column-gap: 20px;
+    color: var(--white);
+    background-color: var(--primary-color);    
+    align-items: center;
+    padding: 10px;
+    margin: 0 -10px;
+    border-radius: 15px;
+    text-decoration: none;
+
+    a{
+        display: flex;
+    }
+    img{
+        border-radius: 5px;
+    }
+
+    .product-quantity{
+        width: 30%;
+        background-color: transparent;
+        border: none;
+        color: var(--white);
+        font-family: var(--font-family);
+    }
+
+    .product-subtotal{
+        font-weight: bold;
+    }
+
+    .remove-cart-item-button{
+        color: var(--red);
+        background-color: var(--white);
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        justify-self: flex-end;
+    }
+}

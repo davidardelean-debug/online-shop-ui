@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FALLBACK_IMAGE, PRODUCTS_ENDPOINT } from "../../constants";
-import { CartContextObject } from "../../entities/cart-context-object";
+import { CartContextObject } from "../../entities/CartContextObject";
 import useProduct from "../../hooks/use-product";
 import { CartContext } from "../../providers/cart-provider";
 import { ProductContext } from "../../providers/products-provider";
@@ -18,7 +18,7 @@ const SingleProduct = () => {
   const { contextProducts, refetchProducts } = useContext(ProductContext);
 
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuantity = parseInt(event.target.value, 10);
+    const newQuantity = parseInt(event.target.value);
     setQuantity(newQuantity);
   };
 
@@ -28,8 +28,8 @@ const SingleProduct = () => {
       navigate("/products");
       const newProducts = contextProducts.filter((item) => item.id !== id);
       refetchProducts(newProducts);
-      const cartItem = cart.find((item) => item.product.id === id)!;
-      setCart(CartService.removeFromCart(cartItem, cart));
+      const cartItem = cart.find((item) => item.product.id === id);
+      cartItem && setCart(CartService.removeFromCart(cartItem, cart));
     }
   };
 

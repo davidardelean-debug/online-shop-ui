@@ -1,7 +1,7 @@
 import { CUSTOMER, LOCATION } from "../constants";
-import { CartItem } from "../entities/cart-item";
-import { Order } from "../entities/order";
-import { OrderItem } from "../entities/order-item";
+import { CartItem } from "../entities/CartItem";
+import { Order } from "../entities/Order";
+import { OrderItem } from "../entities/OrderItem";
 
 export class OrderService {
   static generateOrder = (form: HTMLFormElement, cart: CartItem[]) => {

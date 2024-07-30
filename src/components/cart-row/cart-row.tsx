@@ -1,31 +1,33 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { CartItem } from "../../entities/cart-item";
+import { CartItem } from "../../entities/CartItem";
 import CartService from "../../services/cart-service";
 
-interface Props {
+interface CartRowProps {
   cartItem: CartItem;
   cart: CartItem[];
   setCart: (newCart: CartItem[]) => void;
 }
 
-const CartRow = ({ cartItem, cart, setCart }: Props) => {
+const CartRow = ({ cartItem, cart, setCart }: CartRowProps) => {
   const { product, quantity } = cartItem;
   const [newQuantity, setQuantity] = useState(quantity);
 
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuantity = parseInt(event.target.value, 10);
+    const newQuantity = parseInt(event.target.value);
     setQuantity(newQuantity);
     setCart(CartService.updateCartItemQuantity(cartItem, cart, newQuantity));
   };
   return (
     <div className="cart-row">
-      <Link to={`/products/${product.id}`}><img src={product.imageUrl} width="30" height="30" /></Link>
+      <Link to={`/products/${product.id}`}>
+        <img src={product.imageUrl} width="30" height="30" />
+      </Link>
       <span className="product-name">{product.name}</span>
       <span className="product-category">{product.category.name}</span>
       <input
         type="number"
-        id="product-quantity"
+        className="product-quantity"
         min="1"
         value={newQuantity}
         onChange={handleQuantityChange}
@@ -35,7 +37,7 @@ const CartRow = ({ cartItem, cart, setCart }: Props) => {
         $ {(product.price * quantity).toFixed(2)}
       </span>
       <button
-        className="btn remove-cart-item"
+        className="btn remove-cart-item-button"
         onClick={() => setCart(CartService.removeFromCart(cartItem, cart))}
       >
         X

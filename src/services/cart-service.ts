@@ -1,4 +1,4 @@
-import { CartItem } from "../entities/cart-item";
+import { CartItem } from "../entities/CartItem";
 
 export default class CartService {
   static addToCart(cartItem: CartItem, cart: CartItem[]): CartItem[] {
@@ -19,14 +19,10 @@ export default class CartService {
     cart: CartItem[],
     newQuantity: number,
   ): CartItem[] {
-    const existingItem = cart.find(
-      (item) => item.product.id === cartItem.product.id,
-    );
-
-    if (existingItem && newQuantity != 0)
+    if (newQuantity != 0)
       return cart.map((item) =>
         item.product.id == cartItem.product.id
-          ? { ...existingItem, quantity: newQuantity }
+          ? { ...item, quantity: newQuantity }
           : item,
       );
     else if (newQuantity == 0) return this.removeFromCart(cartItem, cart);
@@ -36,5 +32,11 @@ export default class CartService {
 
   static clearCart() {
     return [];
+  }
+
+  static calculateCartTotal(cart: CartItem[]): string {
+    return cart
+      .reduce((acc, value) => acc + value.product.price * value.quantity, 0)
+      .toFixed(2);
   }
 }

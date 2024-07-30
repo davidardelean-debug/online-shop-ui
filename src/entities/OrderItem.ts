@@ -1,5 +1,5 @@
-import { Location } from "./location";
-import Product from "./product";
+import { Location } from "./Location";
+import Product from "./Product";
 
 export interface OrderItem {
   product: Product;

@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { FALLBACK_IMAGE } from "../../constants";
-import Product from "../../entities/product";
+import Product from "../../entities/Product";
 
-interface Props {
+interface ProductListingItemProps {
   product: Product;
 }
 
-const ProductListingItem = ({ product }: Props) => {
+const ProductListingItem = ({ product }: ProductListingItemProps) => {
   return (
     <div className="product-listing-item">
       <img src={product.imageUrl || FALLBACK_IMAGE} />

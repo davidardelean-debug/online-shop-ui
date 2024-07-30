@@ -1,4 +1,4 @@
-import { CustomerRoles } from "./customer-roles";
+import { CustomerRoles } from "./CustomerRoles";
 
 export interface Customer {
   id?: string;

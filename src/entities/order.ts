@@ -1,6 +1,5 @@
 import { Customer } from "./customer";
-import { Location } from "./location";
-import { OrderItem } from "./order-item";
+import { OrderItem } from "./OrderItem";
 
 export interface Order {
   customer: Customer;

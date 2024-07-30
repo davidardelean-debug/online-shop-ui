@@ -1,5 +1,5 @@
 import { SetStateAction } from "react";
-import Product from "./product";
+import Product from "./Product";
 
 export interface ProductsContextObject {
   contextProducts: Product[];

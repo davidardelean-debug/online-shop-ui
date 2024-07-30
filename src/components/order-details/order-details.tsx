@@ -1,11 +1,11 @@
-import { CartItem } from "../../entities/cart-item";
+import { CartItem } from "../../entities/CartItem";
+import CartService from "../../services/cart-service";
 
-interface Props{
+interface OrderDetailsProps{
   cart: CartItem[]
 }
-const OrderDetails = ({cart}: Props) => {
+const OrderDetails = ({cart}: OrderDetailsProps) => {
 
-const total = cart.reduce((acc, cartItem)=> acc+= cartItem.product.price * cartItem.quantity ,0)
   return (
     <div className="order-details">
       {
@@ -16,7 +16,7 @@ const total = cart.reduce((acc, cartItem)=> acc+= cartItem.product.price * cartI
           <span className="product-subtotal">$ {(cartItem.quantity * cartItem.product.price).toFixed(2)}</span>
         </div>)
       }
-      <span className="order-total">Total: ${total.toFixed(2)}</span>
+      <span className="order-total">Total: ${CartService.calculateCartTotal(cart)}</span>
     </div>
   )
 }

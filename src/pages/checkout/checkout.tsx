@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OrderDetails from "../../components/order-details/order-details";
 import { ORDERS_ENDPOINT } from "../../constants";
-import { CartContextObject } from "../../entities/cart-context-object";
-import { Order } from "../../entities/order";
+import { CartContextObject } from "../../entities/CartContextObject";
+import { Order } from "../../entities/Order";
 import { CartContext } from "../../providers/cart-provider";
 import APIClient from "../../services/api-client";
 import CartService from "../../services/cart-service";
@@ -16,7 +16,7 @@ const Checkout = () => {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handlePlaceOrder = async (event: React.FormEvent) => {
+  const handlePlaceOrder = (event: React.FormEvent) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
 

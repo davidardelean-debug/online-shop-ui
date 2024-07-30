@@ -17,7 +17,7 @@
         border-radius: 5px;
     }
 
-    #product-quantity{
+    .product-quantity{
         width: 30%;
         background-color: transparent;
         border: none;
@@ -29,7 +29,7 @@
         font-weight: bold;
     }
 
-    button.remove-cart-item{
+    .remove-cart-item-button{
         color: var(--red);
         background-color: var(--white);
         width: 20px;

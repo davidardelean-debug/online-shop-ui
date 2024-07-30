@@ -2,8 +2,9 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import CartRow from "../../components/cart-row/cart-row";
 import EmptyCart from "../../components/empty-cart/empty-cart";
-import { CartContextObject } from "../../entities/cart-context-object";
+import { CartContextObject } from "../../entities/CartContextObject";
 import { CartContext } from "../../providers/cart-provider";
+import CartService from "../../services/cart-service";
 
 const Cart = () => {
   const { cart, setCart } = useContext<CartContextObject>(CartContext);
@@ -37,12 +38,7 @@ const Cart = () => {
               Total:{" "}
               <span className="sum">
                 $
-                {cart
-                  .reduce(
-                    (acc, value) => acc + value.product.price * value.quantity,
-                    0
-                  )
-                  .toFixed(2)}
+                {CartService.calculateCartTotal(cart)}
               </span>
             </div>
           </div>

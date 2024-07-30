@@ -1,6 +1,6 @@
 import { createContext, ReactNode, SetStateAction, useEffect, useState } from "react";
-import Product from "../entities/product";
-import { ProductsContextObject } from "../entities/products-context-object";
+import Product from "../entities/Product";
+import { ProductsContextObject } from "../entities/ProductsContextObject";
 import useProducts from "../hooks/use-products";
 
 interface Props {

@@ -1,5 +1,5 @@
 import { PRODUCTS_ENDPOINT } from "../constants";
-import Product from "../entities/product";
+import Product from "../entities/Product";
 import useData from "./use-data";
 
 const useProducts = () => {

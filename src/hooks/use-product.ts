@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { PRODUCTS_ENDPOINT } from "../constants";
-import Product from "../entities/product";
+import Product from "../entities/Product";
 import APIClient from "../services/api-client";
 
 const useProduct = (id: string) => {

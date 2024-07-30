@@ -1,4 +1,4 @@
-import { CustomerRoles } from "./entities/customer-roles";
+import { CustomerRoles } from "./entities/CustomerRoles";
 
 export const FALLBACK_IMAGE = "src/assets/image-not-found.png";
 

@@ -1,6 +1,6 @@
 import { UUID } from "crypto";
 import { BASE_API_URL } from "../constants";
-import { Order } from "../entities/order";
+import { Order } from "../entities/Order";
 
 class APIClient {
   baseUrl = BASE_API_URL;

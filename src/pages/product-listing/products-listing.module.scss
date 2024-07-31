@@ -1,8 +1,16 @@
 .products-listing-grid {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
   gap: 3rem;
   margin-top: 50px;
+
+  img{
+    width: 100%;
+  }
+}
+
+.title-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -1,6 +1,7 @@
 import { createContext, ReactNode, SetStateAction, useEffect, useState } from "react";
 import Product from "../entities/Product";
 import { ProductsContextObject } from "../entities/ProductsContextObject";
+import useProductCategories from "../hooks/use-product-categories";
 import useProducts from "../hooks/use-products";
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
 
 const initialProductsState: ProductsContextObject = {
   contextProducts: [],
+  productCategories:[],
   refetchProducts: () => {},
   error: "",
   isLoading: false,
@@ -16,12 +18,18 @@ const initialProductsState: ProductsContextObject = {
 export const ProductContext = createContext(initialProductsState);
 
 const ProductProvider = ({ children }: Props) => {
-  const { data, error, isLoading } = useProducts();
-  const [localProducts, setLocalProducts] = useState(data);
+  const { data:products, error, isLoading } = useProducts();
+  const [localProducts, setLocalProducts] = useState(products);
+  const { data: productCategories } = useProductCategories();
+  const [localProductCategories, setLocalProductCategories] = useState(productCategories);
 
   useEffect(() => {
-    setLocalProducts(data);
-  }, [data]);
+    setLocalProducts(products);
+  }, [products]);
+
+  useEffect(() => {
+    setLocalProductCategories(productCategories);
+  },[productCategories]);
 
   const refetchProducts = (data: SetStateAction<Product[]>) => {
     setLocalProducts(data);
@@ -31,6 +39,7 @@ const ProductProvider = ({ children }: Props) => {
     <ProductContext.Provider
       value={{
         contextProducts: localProducts,
+        productCategories: localProductCategories,
         refetchProducts,
         error,
         isLoading,

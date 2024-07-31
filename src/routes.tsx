@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import AddProduct from "./pages/add-product/add-product";
 import Cart from "./pages/cart/cart";
 import Checkout from "./pages/checkout/checkout";
 import EditProduct from "./pages/edit-product/edit-product";
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { index: true, element: <ProductsListing /> },
       { path: ":id", element: <SingleProduct /> },
       { path: ":id/edit", element: <EditProduct /> },
+      { path: "new", element: <AddProduct /> },
     ],
   },
   {

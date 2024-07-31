@@ -67,7 +67,7 @@ const SingleProduct = () => {
               <div className="bottom-side">
                 <input
                   type="number"
-                  id="product-quantity"
+                  className="product-quantity"
                   min="1"
                   value={quantity}
                   onChange={handleQuantityChange}

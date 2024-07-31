@@ -1,9 +1,9 @@
 import React, { forwardRef } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import ProductCategory from "../../entities/ProductCategory";
-import { ProductFormData } from "../../pages/edit-product/edit-product";
+import { ProductFormData } from "../../entities/ProductSchema";
 
-export interface ProductFormProps {
+interface ProductFormProps {
   register: UseFormRegister<ProductFormData>;
   handleSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
   errors: FieldErrors<ProductFormData>;
@@ -58,14 +58,26 @@ const ProductForm = forwardRef<HTMLFormElement, ProductFormProps>(
         </label>
         <label>
           Weight:
-          <input {...register("weight")} placeholder="" type="number" min="0" step="0.01"/>
+          <input
+            {...register("weight")}
+            placeholder=""
+            type="number"
+            min="0"
+            step="0.01"
+          />
           {errors.weight && (
             <p className="field-error">{errors.weight.message}</p>
           )}
         </label>
         <label>
           Price:
-          <input {...register("price")} placeholder="" type="number" min='0' step='0.01' />
+          <input
+            {...register("price")}
+            placeholder=""
+            type="number"
+            min="0"
+            step="0.01"
+          />
           {errors.price && (
             <p className="field-error">{errors.price.message}</p>
           )}

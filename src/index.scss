@@ -8,6 +8,7 @@
 @use 'components/cart-row/cart-row.module.scss';
 @use 'pages/checkout/checkout.module.scss';
 @use 'components/product-form/product-form.module.scss';
+@use 'pages/edit-product/edit-product.module.scss';
 
 @font-face {
   font-family: "Poppins";
@@ -44,12 +45,17 @@ img{
   border-radius: 15px;
 }
 
-input:not([type="submit"]){
+input:not([type="submit"]), textarea, select{
   all: unset;
   border-radius: 15px;
   border: 2px solid var(--primary-color);
   padding: 0 10px;
   font-family: var(--font-family);
+}
+
+*[disabled] {
+  opacity: 0.5!important;
+  cursor: not-allowed!important;
 }
 
 .btn {

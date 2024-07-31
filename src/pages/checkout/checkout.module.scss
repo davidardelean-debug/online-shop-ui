@@ -15,19 +15,20 @@
     flex-direction: column;
     justify-content: space-between;
 
-    .order-notice{
+    .order-notice {
       margin-top: 30px;
       text-align: center;
 
-      .success-message, .error-message{
+      .success-message,
+      .error-message {
         border-radius: 15px;
         background-color: var(--primary-color);
-        color:var(--white);
+        color: var(--white);
         padding: 10px;
       }
 
-      .error-message{
-          background-color: var(--red);
+      .error-message {
+        background-color: var(--red);
       }
     }
   }
@@ -39,11 +40,6 @@
 
     input {
       padding: 10px 15px;
-    }
-
-    input[type="submit"][disabled] {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
   }
 }

@@ -26,7 +26,7 @@ const Checkout = () => {
     const controller = new AbortController();
     setLoading(true);
     apiClient
-      .addOrder(order, { signal: controller.signal })
+      .add<Order>(order, { signal: controller.signal })
       .then((res) => res.json())
       .then((res) => {
         setData(res);

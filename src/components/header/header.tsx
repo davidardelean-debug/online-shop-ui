@@ -1,11 +1,10 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/use-auth";
-import { CartContext } from "../../providers/cart-provider";
+import { useCart } from "../../hooks/use-cart";
 
 const Header = () => {
-  const { cart } = useContext(CartContext);
-  const {user,  logout} = useAuth();
+  const { cart, setCart } = useCart();
+  const { user, logout } = useAuth();
   return (
     <div className="header">
       <div className="header-content">
@@ -20,7 +19,15 @@ const Header = () => {
           {user?.username ? (
             <div className="user-profile">
               <span>Hello, {user.firstName}</span>
-              <Link className="btn logout-btn" to={"/login"} onClick={()=>logout()} replace>
+              <Link
+                className="btn logout-btn"
+                to={"/login"}
+                onClick={() => {
+                  logout();
+                  setCart([]);
+                }}
+                replace
+              >
                 Log out
               </Link>
             </div>

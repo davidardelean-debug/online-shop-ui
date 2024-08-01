@@ -1,13 +1,11 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import CartRow from "../../components/cart-row/cart-row";
 import EmptyCart from "../../components/empty-cart/empty-cart";
-import { CartContextObject } from "../../entities/CartContextObject";
-import { CartContext } from "../../providers/cart-provider";
+import { useCart } from "../../hooks/use-cart";
 import CartService from "../../services/cart-service";
 
 const Cart = () => {
-  const { cart, setCart } = useContext<CartContextObject>(CartContext);
+  const { cart, setCart } = useCart();
   const navigate = useNavigate();
 
   return (

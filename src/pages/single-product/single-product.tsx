@@ -1,11 +1,10 @@
 import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FALLBACK_IMAGE, PRODUCTS_ENDPOINT } from "../../constants";
-import { CartContextObject } from "../../entities/CartContextObject";
 import { CustomerRoles } from "../../entities/CustomerRoles";
 import { useAuth } from "../../hooks/use-auth";
+import { useCart } from "../../hooks/use-cart";
 import useProduct from "../../hooks/use-product";
-import { CartContext } from "../../providers/cart-provider";
 import { ProductContext } from "../../providers/products-provider";
 import APIClient from "../../services/api-client";
 import CartService from "../../services/cart-service";
@@ -16,7 +15,7 @@ const SingleProduct = () => {
 
   const { data: product, error, isLoading } = useProduct(id!);
   const [quantity, setQuantity] = useState(1);
-  const { cart, setCart } = useContext<CartContextObject>(CartContext);
+  const { cart, setCart } = useCart();
   const { contextProducts, refetchProducts } = useContext(ProductContext);
 
   const { user, accessToken } = useAuth();

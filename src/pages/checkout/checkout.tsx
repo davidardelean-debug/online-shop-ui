@@ -1,17 +1,16 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OrderDetails from "../../components/order-details/order-details";
 import { ORDERS_ENDPOINT } from "../../constants";
-import { CartContextObject } from "../../entities/CartContextObject";
 import { Order } from "../../entities/Order";
 import { useAuth } from "../../hooks/use-auth";
-import { CartContext } from "../../providers/cart-provider";
+import { useCart } from "../../hooks/use-cart";
 import APIClient from "../../services/api-client";
 import CartService from "../../services/cart-service";
 import { OrderService } from "../../services/order-service";
 
 const Checkout = () => {
-  const { cart, setCart } = useContext<CartContextObject>(CartContext);
+  const { cart, setCart } = useCart();
   const [data, setData] = useState<Order>();
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);

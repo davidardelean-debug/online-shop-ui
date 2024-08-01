@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useMemo } from "react";
 import { Customer } from "../entities/Customer";
-import { User as UserContextObject } from "../entities/User";
+import { UserContextObject } from "../entities/UserContextObject";
 import { useLocalStorage } from "../hooks/use-local-storage";
 
 interface AuthProviderProps {

@@ -35,7 +35,7 @@ const Login = () => {
       })
       .catch((err) => {
         if (err.name === "AbortError") return;
-        setError(err.message);
+        setError("Username or password is incorrect.");
         setLoading(false);
       });
   };

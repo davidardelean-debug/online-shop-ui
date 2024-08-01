@@ -3,19 +3,16 @@ import { BASE_API_URL } from "../constants";
 
 class APIClient {
   private baseUrl = BASE_API_URL;
-
-  constructor(
-    private endpoint: string,
-    private accessToken: string,
-  ) {
+  private accessHeader: string;
+  constructor(private endpoint: string, accessToken: string) {
     this.endpoint = endpoint;
-    this.accessToken = accessToken;
+    this.accessHeader = `Bearer ${accessToken}`;
   }
 
   getAll = async (config?: RequestInit) => {
     const response = await fetch(this.baseUrl + this.endpoint, {
       headers: {
-        Authorization: `Bearer ${this.accessToken}`,
+        Authorization: this.accessHeader,
       },
       ...config,
     });
@@ -26,7 +23,7 @@ class APIClient {
   get = async (id?: string | number | UUID, config?: RequestInit) => {
     const response = await fetch(this.baseUrl + this.endpoint + id, {
       headers: {
-        Authorization: `Bearer ${this.accessToken}`,
+        Authorization: this.accessHeader,
       },
       ...config,
     });
@@ -37,7 +34,7 @@ class APIClient {
   remove = async (id?: string | number | UUID, config?: RequestInit) => {
     const response = await fetch(this.baseUrl + this.endpoint + id, {
       headers: {
-        Authorization: `Bearer ${this.accessToken}`,
+        Authorization: this.accessHeader,
       },
       ...config,
       method: "DELETE",
@@ -49,12 +46,12 @@ class APIClient {
   update = async <T>(
     id: string | number | UUID,
     body: T,
-    config?: RequestInit,
+    config?: RequestInit
   ) => {
     const response = await fetch(this.baseUrl + this.endpoint + id, {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${this.accessToken}`,
+        Authorization: this.accessHeader,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
@@ -68,7 +65,7 @@ class APIClient {
     const response = await fetch(this.baseUrl + this.endpoint, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${this.accessToken}`,
+        Authorization: this.accessHeader,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),

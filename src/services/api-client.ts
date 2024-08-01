@@ -4,7 +4,10 @@ import { BASE_API_URL } from "../constants";
 class APIClient {
   private baseUrl = BASE_API_URL;
   private accessHeader: string;
-  constructor(private endpoint: string, accessToken: string) {
+  constructor(
+    private endpoint: string,
+    accessToken: string,
+  ) {
     this.endpoint = endpoint;
     this.accessHeader = `Bearer ${accessToken}`;
   }
@@ -46,7 +49,7 @@ class APIClient {
   update = async <T>(
     id: string | number | UUID,
     body: T,
-    config?: RequestInit
+    config?: RequestInit,
   ) => {
     const response = await fetch(this.baseUrl + this.endpoint + id, {
       method: "PUT",

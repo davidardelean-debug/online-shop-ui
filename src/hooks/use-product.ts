@@ -28,7 +28,7 @@ const useProduct = (id: string) => {
       });
 
     return () => controller.abort();
-  }, [id]);
+  }, [id, accessToken]);
 
   return { data, error, isLoading };
 };

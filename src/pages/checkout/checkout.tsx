@@ -16,13 +16,17 @@ const Checkout = () => {
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
 
   const handlePlaceOrder = (event: React.FormEvent) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
 
-    const order = OrderService.generateOrder(form, cart);
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    const order = OrderService.generateOrder(form, cart, user);
 
     const apiClient = new APIClient(ORDERS_ENDPOINT, accessToken);
     const controller = new AbortController();

@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FALLBACK_IMAGE, PRODUCTS_ENDPOINT } from "../../constants";
 import { CartContextObject } from "../../entities/CartContextObject";
+import { CustomerRoles } from "../../entities/CustomerRoles";
+import { useAuth } from "../../hooks/use-auth";
 import useProduct from "../../hooks/use-product";
 import { CartContext } from "../../providers/cart-provider";
 import { ProductContext } from "../../providers/products-provider";
@@ -17,6 +19,8 @@ const SingleProduct = () => {
   const { cart, setCart } = useContext<CartContextObject>(CartContext);
   const { contextProducts, refetchProducts } = useContext(ProductContext);
 
+  const { user, accessToken } = useAuth();
+
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = parseInt(event.target.value);
     setQuantity(newQuantity);
@@ -24,7 +28,7 @@ const SingleProduct = () => {
 
   const handleDelete = async () => {
     if (confirm(`Are you sure you want to delete ${product?.name}?`)) {
-      await new APIClient(PRODUCTS_ENDPOINT).remove(id);
+      await new APIClient(PRODUCTS_ENDPOINT, accessToken).remove(id);
       navigate("/products");
       const newProducts = contextProducts.filter((item) => item.id !== id);
       refetchProducts(newProducts);
@@ -47,8 +51,18 @@ const SingleProduct = () => {
                 <div className="actions-wrapper">
                   <h1 className="product-title">{product.name}</h1>
                   <div>
-                    <button className="edit-btn btn" onClick={()=> navigate('./edit')}>Edit</button>
-                    <button className="delete-btn btn" onClick={handleDelete}>
+                    <button
+                      className="edit-btn btn"
+                      onClick={() => navigate("./edit")}
+                      disabled={user?.role !== CustomerRoles.ADMIN}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="delete-btn btn"
+                      onClick={handleDelete}
+                      disabled={user?.role !== CustomerRoles.ADMIN}
+                    >
                       Delete
                     </button>
                   </div>

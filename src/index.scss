@@ -1,64 +1,86 @@
-@use 'components/header/header.module.scss';
-@use 'components/footer/footer.module.scss';
-@use 'pages/page-layout/page-layout.module.scss';
-@use 'components/product-listing-item/product-listing-item.module.scss';
-@use 'pages/product-listing/products-listing.module.scss';
-@use 'pages/single-product/single-product-module.scss';
-@use 'pages/cart/cart.module.scss';
-@use 'components/cart-row/cart-row.module.scss';
-@use 'pages/checkout/checkout.module.scss';
-@use 'components/product-form/product-form.module.scss';
-@use 'pages/edit-product/edit-product.module.scss';
-@use 'pages/add-product/add-product.module.scss';
+@use "components/header/header.module.scss";
+@use "components/footer/footer.module.scss";
+@use "pages/page-layout/page-layout.module.scss";
+@use "components/product-listing-item/product-listing-item.module.scss";
+@use "pages/product-listing/products-listing.module.scss";
+@use "pages/single-product/single-product-module.scss";
+@use "pages/cart/cart.module.scss";
+@use "components/cart-row/cart-row.module.scss";
+@use "pages/checkout/checkout.module.scss";
+@use "components/product-form/product-form.module.scss";
+@use "pages/edit-product/edit-product.module.scss";
+@use "pages/add-product/add-product.module.scss";
+@use "pages/login/login.module.scss";
 
 @font-face {
   font-family: "Poppins";
   src: url("src/assets/fonts/Poppins-Regular.ttf") format("truetype");
 }
 
-:root{
-  --primary-color:#4c8577;
+:root {
+  --primary-color: #4c8577;
   --secondary-color: #a6ece0;
   --white: #fff;
   --black: #000;
-  --red: #96031A;
+  --red: #96031a;
   --background-color: #eff1f3;
   --font-family: "Poppins";
-  --max-width-desktop:1340px;
+  --max-width-desktop: 1340px;
 }
 
-body, html {
+body,
+html {
   font-family: var(--font-family);
-  background-color:var(--background-color);
+  background-color: var(--background-color);
   color: var(--primary-color);
   margin: 0;
-  width: 100%!important;
+  width: 100% !important;
   box-sizing: border-box;
   overflow-x: clip;
 }
 
-h1{
+h1 {
   margin-top: 0;
 }
 
-img{
+img {
   object-fit: cover;
   border-radius: 15px;
 }
 
-input:not([type="submit"]), textarea, select{
+input:not([type="submit"]),
+textarea,
+select {
   all: unset;
   border-radius: 15px;
   border: 2px solid var(--primary-color);
-  padding: 0 10px;
+  padding: 10px;
   font-family: var(--font-family);
 }
 
-*[disabled] {
-  opacity: 0.5!important;
-  cursor: not-allowed!important;
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
+*[disabled] {
+  opacity: 0.5 !important;
+  pointer-events: none;
+  cursor: not-allowed !important;
+
+}
+
+button{
+  all: unset;
+}
 .btn {
   all: unset;
   font-family: var(--font-family);
@@ -71,5 +93,7 @@ input:not([type="submit"]), textarea, select{
   cursor: pointer;
 }
 
-
-
+.field-error {
+  color: var(--red);
+  margin: 0;
+}

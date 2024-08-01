@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import APIClient from "../services/api-client";
+import { useAuth } from "./use-auth";
 
 const useData = <T>(endpoint: string) => {
   const [data, setData] = useState<T[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const { accessToken } = useAuth();
 
   useEffect(() => {
-    const apiClient = new APIClient(endpoint);
+    const apiClient = new APIClient(endpoint, accessToken);
 
     const controller = new AbortController();
     setLoading(true);
@@ -25,7 +27,7 @@ const useData = <T>(endpoint: string) => {
       });
 
     return () => controller.abort();
-  }, [endpoint]);
+  }, [endpoint, accessToken]);
 
   return { data, error, isLoading };
 };

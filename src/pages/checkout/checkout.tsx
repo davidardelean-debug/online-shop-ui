@@ -4,6 +4,7 @@ import OrderDetails from "../../components/order-details/order-details";
 import { ORDERS_ENDPOINT } from "../../constants";
 import { CartContextObject } from "../../entities/CartContextObject";
 import { Order } from "../../entities/Order";
+import { useAuth } from "../../hooks/use-auth";
 import { CartContext } from "../../providers/cart-provider";
 import APIClient from "../../services/api-client";
 import CartService from "../../services/cart-service";
@@ -15,6 +16,7 @@ const Checkout = () => {
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { accessToken } = useAuth();
 
   const handlePlaceOrder = (event: React.FormEvent) => {
     event.preventDefault();
@@ -22,7 +24,7 @@ const Checkout = () => {
 
     const order = OrderService.generateOrder(form, cart);
 
-    const apiClient = new APIClient(ORDERS_ENDPOINT);
+    const apiClient = new APIClient(ORDERS_ENDPOINT, accessToken);
     const controller = new AbortController();
     setLoading(true);
     apiClient

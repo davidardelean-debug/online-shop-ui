@@ -1,27 +1,5 @@
-.product-form{
-    display: flex;
-    flex-direction: column;
-    gap:30px;
-    width: 100%;
-
-    label{
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
-
-        input, select{
-            padding: 10px;
-        }
-
-        textarea{
-            height: 100px;
-        }
-
-        .field-error{
-            color: var(--red);
-            margin: 0;
-        }
-    }
+.product-form {
+  textarea {
+    height: 100px;
+  }
 }
-

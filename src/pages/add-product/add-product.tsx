@@ -5,9 +5,10 @@ import ProductForm from "../../components/product-form/product-form";
 import { PRODUCTS_ENDPOINT } from "../../constants";
 import Product from "../../entities/Product";
 import {
-    ProductFormData,
-    ProductFormResolver,
+  ProductFormData,
+  ProductFormResolver,
 } from "../../entities/ProductSchema";
+import { useAuth } from "../../hooks/use-auth";
 import { ProductContext } from "../../providers/products-provider";
 import APIClient from "../../services/api-client";
 import { ProductService } from "../../services/product-service";
@@ -27,8 +28,10 @@ const AddProduct = () => {
   });
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
+  const { accessToken } = useAuth();
 
-  const apiCLient = new APIClient(PRODUCTS_ENDPOINT);
+
+  const apiCLient = new APIClient(PRODUCTS_ENDPOINT, accessToken);
   const handleEditProduct: SubmitHandler<ProductFormData> = async (data) => {
     const addedProduct = ProductService.generateProduct(
       productCategories,
@@ -68,7 +71,7 @@ const AddProduct = () => {
               </button>
               <button
                 className="btn cancel-btn"
-                onClick={() => navigate("../")}
+                onClick={() => navigate(-1)}
               >
                 Go back
               </button>

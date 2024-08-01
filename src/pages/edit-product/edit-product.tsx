@@ -7,6 +7,7 @@ import {
   ProductFormData,
   ProductFormResolver,
 } from "../../entities/ProductSchema";
+import { useAuth } from "../../hooks/use-auth";
 import { ProductContext } from "../../providers/products-provider";
 import APIClient from "../../services/api-client";
 import { ProductService } from "../../services/product-service";
@@ -38,11 +39,15 @@ const EditProduct = () => {
     resolver: ProductFormResolver,
     defaultValues: formDefaultValues,
   });
+  const { accessToken } = useAuth();
 
-  const apiCLient = new APIClient(PRODUCTS_ENDPOINT);
+  const apiCLient = new APIClient(PRODUCTS_ENDPOINT, accessToken);
   const handleEditProduct: SubmitHandler<ProductFormData> = async (data) => {
     if (id) {
-      const updatedProduct = ProductService.generateProduct(productCategories, data)
+      const updatedProduct = ProductService.generateProduct(
+        productCategories,
+        data
+      );
       apiCLient
         .update(id, updatedProduct)
         .then((res) => res.json())

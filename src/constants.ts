@@ -8,6 +8,10 @@ export const PRODUCTS_ENDPOINT = "products/";
 
 export const ORDERS_ENDPOINT = "orders/";
 
+export const PRODUCT_CATEGORY_ENDPOINT = "product-category/";
+
+export const AUTH_ENDPOINT = "auth/";
+
 export const LOCATION = {
   id: "e918072a-0fdf-44e3-90dd-1be08ac5a670",
   name: "Magazin Bucuresti",

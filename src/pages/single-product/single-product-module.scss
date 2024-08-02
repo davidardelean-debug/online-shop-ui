@@ -18,7 +18,7 @@
     margin-top: 50px;
     gap: 20px;
 
-    #product-quantity{
+    .product-quantity{
      width: 10%;
     }
   }
@@ -49,6 +49,7 @@
 
       .product-title {
         margin: 0;
+        max-width: 70%;
       }
 
       .edit-btn {

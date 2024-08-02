@@ -1,9 +1,10 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../../providers/cart-provider";
+import { useAuth } from "../../hooks/use-auth";
+import { useCart } from "../../hooks/use-cart";
 
 const Header = () => {
-  const {cart} = useContext(CartContext);
+  const { cart, setCart } = useCart();
+  const { user, logout } = useAuth();
   return (
     <div className="header">
       <div className="header-content">
@@ -11,13 +12,30 @@ const Header = () => {
           <h3 className="site-title">Online shop</h3>
         </Link>
         <div className="action-panel">
-          <Link className="cart-widget-icon" to='/cart'>
+          <Link className="cart-widget-icon" to="/cart">
             <span className="cart-item-number">{cart.length}</span>
             <img src="src/assets/cart.png" width="20" height="20"></img>
           </Link>
-          <button className="btn login-btn">
-            Log in
-          </button>
+          {user?.username ? (
+            <div className="user-profile">
+              <span>Hello, {user.firstName}</span>
+              <Link
+                className="btn logout-btn"
+                to={"/login"}
+                onClick={() => {
+                  logout();
+                  setCart([]);
+                }}
+                replace
+              >
+                Log out
+              </Link>
+            </div>
+          ) : (
+            <Link className="btn login-btn" to={"/login"}>
+              Log in
+            </Link>
+          )}
         </div>
       </div>
     </div>

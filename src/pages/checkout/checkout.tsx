@@ -1,32 +1,37 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OrderDetails from "../../components/order-details/order-details";
 import { ORDERS_ENDPOINT } from "../../constants";
-import { CartContextObject } from "../../entities/CartContextObject";
 import { Order } from "../../entities/Order";
-import { CartContext } from "../../providers/cart-provider";
+import { useAuth } from "../../hooks/use-auth";
+import { useCart } from "../../hooks/use-cart";
 import APIClient from "../../services/api-client";
 import CartService from "../../services/cart-service";
 import { OrderService } from "../../services/order-service";
 
 const Checkout = () => {
-  const { cart, setCart } = useContext<CartContextObject>(CartContext);
+  const { cart, setCart } = useCart();
   const [data, setData] = useState<Order>();
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { accessToken, user } = useAuth();
 
   const handlePlaceOrder = (event: React.FormEvent) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
 
-    const order = OrderService.generateOrder(form, cart);
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    const order = OrderService.generateOrder(form, cart, user);
 
-    const apiClient = new APIClient(ORDERS_ENDPOINT);
+    const apiClient = new APIClient(ORDERS_ENDPOINT, accessToken);
     const controller = new AbortController();
     setLoading(true);
     apiClient
-      .addOrder(order, { signal: controller.signal })
+      .add<Order>(order, { signal: controller.signal })
       .then((res) => res.json())
       .then((res) => {
         setData(res);

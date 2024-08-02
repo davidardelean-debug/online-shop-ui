@@ -1,4 +1,5 @@
-import { Customer } from "./customer";
+import { Customer } from "./Customer";
+import { Location } from "./Location";
 import { OrderItem } from "./OrderItem";
 
 export interface Order {

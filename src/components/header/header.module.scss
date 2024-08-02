@@ -28,16 +28,16 @@
       align-items: center;
       gap: 30px;
 
-      .cart-widget-icon{
+      .cart-widget-icon {
         position: relative;
         display: flex;
         align-items: center;
         img {
           filter: brightness(0) saturate(100%) invert(50%) sepia(11%)
             saturate(1272%) hue-rotate(115deg) brightness(91%) contrast(91%);
-            border-radius: 0;
+          border-radius: 0;
         }
-        .cart-item-number{
+        .cart-item-number {
           font-size: 12px;
           border-radius: 100px;
           background-color: var(--white);
@@ -54,12 +54,20 @@
         }
       }
 
-      a.login-btn {
+      .login-btn, .logout-btn {
         color: var(--white);
         background-color: var(--primary-color);
         padding: 5px 15px;
         border-radius: 15px;
         text-decoration: none;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap:20px;
+
+        
       }
     }
 

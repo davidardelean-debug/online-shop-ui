@@ -11,7 +11,5 @@ export interface Customer {
 
   emailAddress: string;
 
-  password?: string;
-
   role: CustomerRoles;
 }

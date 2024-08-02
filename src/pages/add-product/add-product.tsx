@@ -30,17 +30,18 @@ const AddProduct = () => {
   const navigate = useNavigate();
   const { accessToken } = useAuth();
 
-
   const apiCLient = new APIClient(PRODUCTS_ENDPOINT, accessToken);
   const handleEditProduct: SubmitHandler<ProductFormData> = async (data) => {
     const addedProduct = ProductService.generateProduct(
       productCategories,
       data
     );
-    apiCLient
-      .add<Product>(addedProduct)
-      .then((res) => res.json())
-      .then((res) => refetchProducts([...products, res]));
+
+    addedProduct &&
+      apiCLient
+        .add<Product>(addedProduct)
+        .then((res) => res.json())
+        .then((res) => refetchProducts([...products, res]));
   };
 
   return (
@@ -69,10 +70,7 @@ const AddProduct = () => {
               >
                 Save
               </button>
-              <button
-                className="btn cancel-btn"
-                onClick={() => navigate(-1)}
-              >
+              <button className="btn cancel-btn" onClick={() => navigate(-1)}>
                 Go back
               </button>
               {isSubmitSuccessful && (

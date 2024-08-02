@@ -7,19 +7,13 @@ interface AuthProviderProps {
   children: ReactNode | ReactNode[];
 }
 
-const initialUserState: UserContextObject = {
-  user: null,
-  accessToken: "",
-  login: () => {},
-  logout: () => {},
-};
-export const AuthContext = createContext(initialUserState);
+export const AuthContext = createContext({} as UserContextObject);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [currentUser, setCurrentUser] = useLocalStorage("user", null);
 
   const value = useMemo(() => {
-    const login = async (data: UserContextObject) => {
+    const login = (data: UserContextObject) => {
       setCurrentUser(data);
     };
 

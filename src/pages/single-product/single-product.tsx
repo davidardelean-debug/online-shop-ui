@@ -36,6 +36,8 @@ const SingleProduct = () => {
     }
   };
 
+  const notAdmin = user?.role !== CustomerRoles.ADMIN;
+
   return (
     <>
       {isLoading && <div className="loader">Loading product...</div>}
@@ -53,14 +55,14 @@ const SingleProduct = () => {
                     <button
                       className="edit-btn btn"
                       onClick={() => navigate("./edit")}
-                      disabled={user?.role !== CustomerRoles.ADMIN}
+                      disabled={notAdmin}
                     >
                       Edit
                     </button>
                     <button
                       className="delete-btn btn"
                       onClick={handleDelete}
-                      disabled={user?.role !== CustomerRoles.ADMIN}
+                      disabled={notAdmin}
                     >
                       Delete
                     </button>

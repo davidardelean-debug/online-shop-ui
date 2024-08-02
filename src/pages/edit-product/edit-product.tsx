@@ -23,7 +23,7 @@ const EditProduct = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const formDefaultValues = {
     name: product?.name || "",
-    category: product?.category?.id || "",
+    category: product?.category.id || "",
     supplier: product?.supplier || "",
     weight: product?.weight || undefined,
     imageUrl: product?.imageUrl || "",
@@ -48,15 +48,16 @@ const EditProduct = () => {
         productCategories,
         data
       );
-      apiCLient
-        .update(id, updatedProduct)
-        .then((res) => res.json())
-        .then((res) => {
-          const updatedProducts = products.map((product) =>
-            res.id === product.id ? res : product
-          );
-          refetchProducts(updatedProducts);
-        });
+      updatedProduct &&
+        apiCLient
+          .update(id, updatedProduct)
+          .then((res) => res.json())
+          .then((res) => {
+            const updatedProducts = products.map((product) =>
+              res.id === product.id ? res : product
+            );
+            refetchProducts(updatedProducts);
+          });
     }
   };
 

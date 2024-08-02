@@ -93,7 +93,7 @@ button{
   cursor: pointer;
 }
 
-.field-error {
+.field-error, .error {
   color: var(--red);
   margin: 0;
 }

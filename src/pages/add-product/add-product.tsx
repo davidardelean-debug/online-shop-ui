@@ -2,23 +2,16 @@ import { useContext, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ProductForm from "../../components/product-form/product-form";
-import { PRODUCTS_ENDPOINT } from "../../constants";
-import Product from "../../entities/Product";
 import {
   ProductFormData,
   ProductFormResolver,
 } from "../../entities/ProductSchema";
-import { useAuth } from "../../hooks/use-auth";
 import { ProductContext } from "../../providers/products-provider";
-import APIClient from "../../services/api-client";
 import { ProductService } from "../../services/product-service";
+import { useAddProductMutation } from "../../services/products-api-slice";
 
 const AddProduct = () => {
-  const {
-    contextProducts: products,
-    productCategories,
-    refetchProducts,
-  } = useContext(ProductContext);
+  const { productCategories } = useContext(ProductContext);
   const {
     register,
     handleSubmit,
@@ -28,20 +21,21 @@ const AddProduct = () => {
   });
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
-  const { accessToken } = useAuth();
 
-  const apiCLient = new APIClient(PRODUCTS_ENDPOINT, accessToken);
+  const [addProduct] = useAddProductMutation();
   const handleEditProduct: SubmitHandler<ProductFormData> = async (data) => {
     const addedProduct = ProductService.generateProduct(
       productCategories,
       data
     );
 
-    addedProduct &&
-      apiCLient
-        .add<Product>(addedProduct)
-        .then((res) => res.json())
-        .then((res) => refetchProducts([...products, res]));
+    if (addedProduct) {
+      try {
+        await addProduct(addedProduct).unwrap();
+      } catch (error) {
+        alert("Failed to add the product.");
+      }
+    }
   };
 
   return (

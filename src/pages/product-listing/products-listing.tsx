@@ -1,16 +1,12 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 import ProductListingItem from "../../components/product-listing-item/product-listing-item";
 import { CustomerRoles } from "../../entities/CustomerRoles";
 import { useAuth } from "../../hooks/use-auth";
-import { ProductContext } from "../../providers/products-provider";
+import { useGetProductsQuery } from "../../services/products-api-slice";
 
 const ProductsListing = () => {
-  const {
-    contextProducts: products,
-    error,
-    isLoading,
-  } = useContext(ProductContext);
+  const { data: products, error, isLoading } = useGetProductsQuery();
+  
   const { user } = useAuth();
   return (
     <div>
@@ -30,7 +26,7 @@ const ProductsListing = () => {
           ))}
         </div>
       ) : (
-        error && <div className="error">{error}</div>
+        error && <div className="error">{JSON.stringify(error)}</div>
       )}
     </div>
   );

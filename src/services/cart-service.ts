@@ -30,7 +30,7 @@ export default class CartService {
     return cart;
   }
 
-  static clearCart() {
+  static clearCart(): CartItem[] {
     return [];
   }
 

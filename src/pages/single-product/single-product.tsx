@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -36,7 +37,8 @@ const SingleProduct = () => {
       }
       navigate("/products");
       const cartItem = cart.find((item) => item.product.id === id);
-      cartItem && store.dispatch(setCart(CartService.removeFromCart(cartItem, cart)));
+      cartItem &&
+        store.dispatch(setCart(CartService.removeFromCart(cartItem, cart)));
     }
   };
 
@@ -55,20 +57,22 @@ const SingleProduct = () => {
                 <div className="actions-wrapper">
                   <h1 className="product-title">{product.name}</h1>
                   <div>
-                    <button
+                    <Button
+                      variant="contained"
                       className="edit-btn btn"
                       onClick={() => navigate("./edit")}
                       disabled={notAdmin}
                     >
                       Edit
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="contained"
                       className="delete-btn btn"
                       onClick={handleDelete}
                       disabled={notAdmin}
                     >
                       Delete
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 <span className="product-description">
@@ -93,9 +97,13 @@ const SingleProduct = () => {
                 <button
                   className="atc-btn btn"
                   onClick={() => {
-                    store.dispatch(setCart(CartService.addToCart({ product, quantity }, cart)));
+                    store.dispatch(
+                      setCart(
+                        CartService.addToCart({ product, quantity }, cart)
+                      )
+                    );
                     setCart(CartService.addToCart({ product, quantity }, cart));
-                    
+
                     navigate("/cart");
                   }}
                 >

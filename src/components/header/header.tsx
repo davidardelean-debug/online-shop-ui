@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearCredentials } from "../../slices/auth-slice";
-import { setCart } from "../../slices/cart-slice";
+import { clearCart } from "../../slices/cart-slice";
 import { RootState, store } from "../../store";
 
 const Header = () => {
@@ -25,9 +25,8 @@ const Header = () => {
                 className="btn logout-btn"
                 to={"/login"}
                 onClick={() => {
-                  // logout();
                   store.dispatch(clearCredentials());
-                  store.dispatch(setCart([]));
+                  store.dispatch(clearCart());
                 }}
                 replace
               >

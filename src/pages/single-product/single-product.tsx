@@ -97,12 +97,11 @@ const SingleProduct = () => {
                 <button
                   className="atc-btn btn"
                   onClick={() => {
-                    store.dispatch(
-                      setCart(
-                        CartService.addToCart({ product, quantity }, cart)
-                      )
+                    const newCart = CartService.addToCart(
+                      { product, quantity },
+                      cart
                     );
-                    setCart(CartService.addToCart({ product, quantity }, cart));
+                    store.dispatch(setCart(newCart));
 
                     navigate("/cart");
                   }}

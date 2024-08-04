@@ -17,7 +17,8 @@ const CartRow = ({ cartItem, cart }: CartRowProps) => {
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = parseInt(event.target.value);
     setQuantity(newQuantity);
-    store.dispatch(setCart(CartService.updateCartItemQuantity(cartItem, cart, newQuantity)));
+    const updatedCart=CartService.updateCartItemQuantity(cartItem, cart, newQuantity);
+    store.dispatch(setCart(updatedCart));
   };
   return (
     <div className="cart-row">

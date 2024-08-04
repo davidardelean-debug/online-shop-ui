@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import ProductForm from "../../components/product-form/product-form";
@@ -6,16 +6,16 @@ import {
   ProductFormData,
   ProductFormResolver,
 } from "../../entities/ProductSchema";
-import { ProductContext } from "../../providers/products-provider";
+import { useGetProductCategoriesQuery } from "../../services/product-categories-api";
 import { ProductService } from "../../services/product-service";
 import {
   useGetProductQuery,
   useUpdateProductMutation,
-} from "../../services/products-api-slice";
+} from "../../services/products-api";
 
 const EditProduct = () => {
   const { id } = useParams();
-  const { productCategories } = useContext(ProductContext);
+  const { data: productCategories } = useGetProductCategoriesQuery();
   const { data: product } = useGetProductQuery(id);
   const formRef = useRef<HTMLFormElement>(null);
   const formDefaultValues = {
@@ -39,7 +39,7 @@ const EditProduct = () => {
 
   const [updateProduct] = useUpdateProductMutation();
   const handleEditProduct: SubmitHandler<ProductFormData> = async (data) => {
-    if (id) {
+    if (id && productCategories) {
       const updatedProduct = ProductService.generateProduct(
         productCategories,
         data

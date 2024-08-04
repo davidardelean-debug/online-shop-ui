@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ProductForm from "../../components/product-form/product-form";
@@ -6,12 +6,12 @@ import {
   ProductFormData,
   ProductFormResolver,
 } from "../../entities/ProductSchema";
-import { ProductContext } from "../../providers/products-provider";
+import { useGetProductCategoriesQuery } from "../../services/product-categories-api";
 import { ProductService } from "../../services/product-service";
-import { useAddProductMutation } from "../../services/products-api-slice";
+import { useAddProductMutation } from "../../services/products-api";
 
 const AddProduct = () => {
-  const { productCategories } = useContext(ProductContext);
+  const { data: productCategories } = useGetProductCategoriesQuery();
   const {
     register,
     handleSubmit,
@@ -24,16 +24,18 @@ const AddProduct = () => {
 
   const [addProduct] = useAddProductMutation();
   const handleEditProduct: SubmitHandler<ProductFormData> = async (data) => {
-    const addedProduct = ProductService.generateProduct(
-      productCategories,
-      data
-    );
+    if (productCategories) {
+      const addedProduct = ProductService.generateProduct(
+        productCategories,
+        data
+      );
 
-    if (addedProduct) {
-      try {
-        await addProduct(addedProduct).unwrap();
-      } catch (error) {
-        alert("Failed to add the product.");
+      if (addedProduct) {
+        try {
+          await addProduct(addedProduct).unwrap();
+        } catch (error) {
+          alert("Failed to add the product.");
+        }
       }
     }
   };

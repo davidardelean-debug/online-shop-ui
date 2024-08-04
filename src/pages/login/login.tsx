@@ -1,17 +1,11 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../../components/login-form/login-form";
-import { AUTH_ENDPOINT } from "../../constants";
-import { UserLoginData } from "../../entities/UserLoginData";
 import { UserFormData, UserFormResolver } from "../../entities/UserSchema";
-import { useAuth } from "../../hooks/use-auth";
-import APIClient from "../../services/api-client";
+import { useLoginMutation } from "../../services/users-api";
 
 const Login = () => {
-  const { login, accessToken } = useAuth();
-  const [error, setError] = useState("");
-  const [isLoading, setLoading] = useState(false);
+  const [login, { error, isLoading }] = useLoginMutation();
   const {
     register,
     handleSubmit,
@@ -20,24 +14,13 @@ const Login = () => {
     resolver: UserFormResolver,
   });
   const navigate = useNavigate();
-
-  const apiClient = new APIClient(AUTH_ENDPOINT + "login", accessToken);
-  const handleLogin = (data: UserFormData) => {
-    apiClient
-      .add<UserLoginData>(data)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.accessToken) {
-          login(res);
-        }
-        setLoading(false);
-        navigate("/products");
-      })
-      .catch((err) => {
-        if (err.name === "AbortError") return;
-        setError("Username or password is incorrect.");
-        setLoading(false);
-      });
+  const handleLogin = async (data: UserFormData) => {
+    try {
+      await login(data).unwrap();
+      navigate("/products");
+    } catch (error) {
+      alert("Failed to login");
+    }
   };
   return (
     <LoginForm

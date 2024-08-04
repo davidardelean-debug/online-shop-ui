@@ -1,14 +1,15 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { FALLBACK_IMAGE } from "../../constants";
 import { CustomerRoles } from "../../entities/CustomerRoles";
-import { useAuth } from "../../hooks/use-auth";
-import { useCart } from "../../hooks/use-cart";
 import CartService from "../../services/cart-service";
 import {
   useDeleteProductMutation,
   useGetProductQuery,
-} from "../../services/products-api-slice";
+} from "../../services/products-api";
+import { setCart } from "../../slices/cart-slice";
+import { RootState, store } from "../../store";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -16,10 +17,9 @@ const SingleProduct = () => {
 
   const { data: product, error, isLoading } = useGetProductQuery(id);
   const [quantity, setQuantity] = useState(1);
-  const { cart, setCart } = useCart();
-  // const { contextProducts, refetchProducts } = useContext(ProductContext);
+  const cart = useSelector((state: RootState) => state.cart);
 
-  const { user } = useAuth();
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = parseInt(event.target.value);
@@ -29,17 +29,14 @@ const SingleProduct = () => {
   const [deleteProduct] = useDeleteProductMutation();
   const handleDelete = async () => {
     if (confirm(`Are you sure you want to delete ${product?.name}?`)) {
-      // await new APIClient(PRODUCTS_ENDPOINT, accessToken).remove(id);
       try {
         await deleteProduct(id!).unwrap();
       } catch (error) {
         alert("Failed to delete the product.");
       }
       navigate("/products");
-      // const newProducts = contextProducts.filter((item) => item.id !== id);
-      // refetchProducts(newProducts);
       const cartItem = cart.find((item) => item.product.id === id);
-      cartItem && setCart(CartService.removeFromCart(cartItem, cart));
+      cartItem && store.dispatch(setCart(CartService.removeFromCart(cartItem, cart)));
     }
   };
 
@@ -96,7 +93,9 @@ const SingleProduct = () => {
                 <button
                   className="atc-btn btn"
                   onClick={() => {
+                    store.dispatch(setCart(CartService.addToCart({ product, quantity }, cart)));
                     setCart(CartService.addToCart({ product, quantity }, cart));
+                    
                     navigate("/cart");
                   }}
                 >

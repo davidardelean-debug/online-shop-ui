@@ -1,13 +1,15 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ProductListingItem from "../../components/product-listing-item/product-listing-item";
 import { CustomerRoles } from "../../entities/CustomerRoles";
-import { useAuth } from "../../hooks/use-auth";
-import { useGetProductsQuery } from "../../services/products-api-slice";
+import { useGetProductsQuery } from "../../services/products-api";
+import { RootState } from "../../store";
 
 const ProductsListing = () => {
   const { data: products, error, isLoading } = useGetProductsQuery();
-  
-  const { user } = useAuth();
+
+  const user = useSelector((state: RootState) => state.auth.user);
+
   return (
     <div>
       <div className="title-wrapper">

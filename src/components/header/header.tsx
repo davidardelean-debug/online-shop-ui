@@ -1,10 +1,12 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../hooks/use-auth";
-import { useCart } from "../../hooks/use-cart";
+import { clearCredentials } from "../../slices/auth-slice";
+import { setCart } from "../../slices/cart-slice";
+import { RootState, store } from "../../store";
 
 const Header = () => {
-  const { cart, setCart } = useCart();
-  const { user, logout } = useAuth();
+  const cart = useSelector((state: RootState) => state.cart);
+  const user = useSelector((state: RootState) => state.auth.user);
   return (
     <div className="header">
       <div className="header-content">
@@ -23,8 +25,9 @@ const Header = () => {
                 className="btn logout-btn"
                 to={"/login"}
                 onClick={() => {
-                  logout();
-                  setCart([]);
+                  // logout();
+                  store.dispatch(clearCredentials());
+                  store.dispatch(setCart([]));
                 }}
                 replace
               >

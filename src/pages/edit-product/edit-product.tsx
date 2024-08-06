@@ -1,25 +1,22 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import ProductForm from "../../components/product-form/product-form";
-import { PRODUCTS_ENDPOINT } from "../../constants";
 import {
   ProductFormData,
   ProductFormResolver,
 } from "../../entities/ProductSchema";
-import { useAuth } from "../../hooks/use-auth";
-import { ProductContext } from "../../providers/products-provider";
-import APIClient from "../../services/api-client";
+import { useGetProductCategoriesQuery } from "../../services/product-categories-api";
 import { ProductService } from "../../services/product-service";
+import {
+  useGetProductQuery,
+  useUpdateProductMutation,
+} from "../../services/products-api";
 
 const EditProduct = () => {
   const { id } = useParams();
-  const {
-    contextProducts: products,
-    productCategories,
-    refetchProducts,
-  } = useContext(ProductContext);
-  const product = products.find((product) => product.id === id);
+  const { data: productCategories } = useGetProductCategoriesQuery();
+  const { data: product } = useGetProductQuery(id);
   const formRef = useRef<HTMLFormElement>(null);
   const formDefaultValues = {
     name: product?.name || "",
@@ -39,25 +36,22 @@ const EditProduct = () => {
     resolver: ProductFormResolver,
     defaultValues: formDefaultValues,
   });
-  const { accessToken } = useAuth();
 
-  const apiCLient = new APIClient(PRODUCTS_ENDPOINT, accessToken);
+  const [updateProduct] = useUpdateProductMutation();
   const handleEditProduct: SubmitHandler<ProductFormData> = async (data) => {
-    if (id) {
+    if (id && productCategories) {
       const updatedProduct = ProductService.generateProduct(
         productCategories,
-        data
+        data,
+        id
       );
-      updatedProduct &&
-        apiCLient
-          .update(id, updatedProduct)
-          .then((res) => res.json())
-          .then((res) => {
-            const updatedProducts = products.map((product) =>
-              res.id === product.id ? res : product
-            );
-            refetchProducts(updatedProducts);
-          });
+
+      if (updatedProduct)
+        try {
+          await updateProduct(updatedProduct).unwrap();
+        } catch (error) {
+          alert("Failed to update the product.");
+        }
     }
   };
 

@@ -1,3 +1,5 @@
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { UserFormData } from "../../entities/UserSchema";
 
@@ -7,7 +9,7 @@ interface LoginFormProps {
   errors: FieldErrors<UserFormData>;
   isSubmitting: boolean;
   isLoading: boolean;
-  loginError: string;
+  loginError?: FetchBaseQueryError | SerializedError ;
 }
 
 const LoginForm = ({
@@ -51,7 +53,7 @@ const LoginForm = ({
         />
         {(isSubmitting || isLoading)  && <p>Logging in....</p>}
       </form>
-      {loginError && <p className="field-error">{loginError}</p>}
+      {loginError && <p className="field-error">Invalid credentials.</p>}
     </div>
   );
 };

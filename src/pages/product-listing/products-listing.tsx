@@ -1,26 +1,27 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import ProductListingItem from "../../components/product-listing-item/product-listing-item";
 import { CustomerRoles } from "../../entities/CustomerRoles";
-import { useAuth } from "../../hooks/use-auth";
-import { ProductContext } from "../../providers/products-provider";
+import { useGetProductsQuery } from "../../services/products-api";
+import { RootState } from "../../store";
 
 const ProductsListing = () => {
-  const {
-    contextProducts: products,
-    error,
-    isLoading,
-  } = useContext(ProductContext);
-  const { user } = useAuth();
+  const { data: products, error, isLoading } = useGetProductsQuery();
+
+  const user = useSelector((state: RootState) => state.auth.user);
+  const navigate = useNavigate()
   return (
     <div>
       <div className="title-wrapper">
         <h1>Shop</h1>
-        <button disabled={user?.role !== CustomerRoles.ADMIN}>
-          <Link to="./new" className="btn">
-            Add new product{" "}
-          </Link>
-        </button>
+        <Button
+          variant="contained"
+          disabled={user?.role !== CustomerRoles.ADMIN}
+          onClick={() => navigate("./new")}
+        >
+          Add new product
+        </Button>
       </div>
       {isLoading && <div className="loader">Loading products...</div>}
       {products ? (
@@ -30,7 +31,7 @@ const ProductsListing = () => {
           ))}
         </div>
       ) : (
-        error && <div className="error">{error}</div>
+        error && <div className="error">{JSON.stringify(error)}</div>
       )}
     </div>
   );

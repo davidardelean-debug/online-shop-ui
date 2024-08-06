@@ -1,43 +1,48 @@
-import { useContext, useState } from "react";
+import { Button } from "@mui/material";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { FALLBACK_IMAGE, PRODUCTS_ENDPOINT } from "../../constants";
+import { FALLBACK_IMAGE } from "../../constants";
 import { CustomerRoles } from "../../entities/CustomerRoles";
-import { useAuth } from "../../hooks/use-auth";
-import { useCart } from "../../hooks/use-cart";
-import useProduct from "../../hooks/use-product";
-import { ProductContext } from "../../providers/products-provider";
-import APIClient from "../../services/api-client";
 import CartService from "../../services/cart-service";
+import {
+  useDeleteProductMutation,
+  useGetProductQuery,
+} from "../../services/products-api";
+import { setCart } from "../../slices/cart-slice";
+import { RootState, store } from "../../store";
 
 const SingleProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: product, error, isLoading } = useProduct(id!);
+  const { data: product, error, isLoading } = useGetProductQuery(id);
   const [quantity, setQuantity] = useState(1);
-  const { cart, setCart } = useCart();
-  const { contextProducts, refetchProducts } = useContext(ProductContext);
+  const cart = useSelector((state: RootState) => state.cart);
 
-  const { user, accessToken } = useAuth();
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = parseInt(event.target.value);
     setQuantity(newQuantity);
   };
 
+  const [deleteProduct] = useDeleteProductMutation();
   const handleDelete = async () => {
-    if (confirm(`Are you sure you want to delete ${product?.name}?`)) {
-      await new APIClient(PRODUCTS_ENDPOINT, accessToken).remove(id);
+    if (id && confirm(`Are you sure you want to delete ${product?.name}?`)) {
+      try {
+        await deleteProduct(id).unwrap();
+      } catch (error) {
+        alert("Failed to delete the product.");
+      }
       navigate("/products");
-      const newProducts = contextProducts.filter((item) => item.id !== id);
-      refetchProducts(newProducts);
       const cartItem = cart.find((item) => item.product.id === id);
-      cartItem && setCart(CartService.removeFromCart(cartItem, cart));
+      cartItem &&
+        store.dispatch(setCart(CartService.removeFromCart(cartItem, cart)));
     }
   };
 
   const notAdmin = user?.role !== CustomerRoles.ADMIN;
-
   return (
     <>
       {isLoading && <div className="loader">Loading product...</div>}
@@ -52,20 +57,22 @@ const SingleProduct = () => {
                 <div className="actions-wrapper">
                   <h1 className="product-title">{product.name}</h1>
                   <div>
-                    <button
+                    <Button
+                      variant="contained"
                       className="edit-btn btn"
                       onClick={() => navigate("./edit")}
                       disabled={notAdmin}
                     >
                       Edit
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="contained"
                       className="delete-btn btn"
                       onClick={handleDelete}
                       disabled={notAdmin}
                     >
                       Delete
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 <span className="product-description">
@@ -90,7 +97,12 @@ const SingleProduct = () => {
                 <button
                   className="atc-btn btn"
                   onClick={() => {
-                    setCart(CartService.addToCart({ product, quantity }, cart));
+                    const newCart = CartService.addToCart(
+                      { product, quantity },
+                      cart
+                    );
+                    store.dispatch(setCart(newCart));
+
                     navigate("/cart");
                   }}
                 >
@@ -101,7 +113,7 @@ const SingleProduct = () => {
           </div>
         </div>
       ) : (
-        error && <div className="error">{error}</div>
+        error && <div className="error">An error occured</div>
       )}
     </>
   );

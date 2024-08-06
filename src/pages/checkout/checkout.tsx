@@ -1,49 +1,34 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OrderDetails from "../../components/order-details/order-details";
-import { ORDERS_ENDPOINT } from "../../constants";
 import { Order } from "../../entities/Order";
-import { useAuth } from "../../hooks/use-auth";
-import { useCart } from "../../hooks/use-cart";
-import APIClient from "../../services/api-client";
-import CartService from "../../services/cart-service";
 import { OrderService } from "../../services/order-service";
+import { useAddOrderMutation } from "../../services/orders-api";
+import { clearCart } from "../../slices/cart-slice";
+import { RootState, store } from "../../store";
 
 const Checkout = () => {
-  const { cart, setCart } = useCart();
+  const cart = useSelector((state: RootState) => state.cart);
   const [data, setData] = useState<Order>();
-  const [error, setError] = useState("");
-  const [isLoading, setLoading] = useState(false);
+  const [addOrder, { error, isLoading }] = useAddOrderMutation();
   const navigate = useNavigate();
-  const { accessToken, user } = useAuth();
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const handlePlaceOrder = (event: React.FormEvent) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
-
-    if (!user) {
-      navigate("/login");
-      return;
+    let order = null;
+    if (user) order = OrderService.generateOrder(form, cart, user);
+    if (order) {
+      addOrder(order)
+        .unwrap()
+        .then((payload) => {
+          setData(payload);
+          store.dispatch(clearCart());
+          setTimeout(() => navigate("/products"), 3000);
+        });
     }
-    const order = OrderService.generateOrder(form, cart, user);
-
-    const apiClient = new APIClient(ORDERS_ENDPOINT, accessToken);
-    const controller = new AbortController();
-    setLoading(true);
-    apiClient
-      .add<Order>(order, { signal: controller.signal })
-      .then((res) => res.json())
-      .then((res) => {
-        setData(res);
-        setLoading(false);
-        setCart(CartService.clearCart());
-        setTimeout(() => navigate("/products"), 3000);
-      })
-      .catch((err) => {
-        if (err.name === "AbortError") return;
-        setError(err.message);
-        setLoading(false);
-      });
   };
 
   return (
@@ -104,7 +89,9 @@ const Checkout = () => {
             <div className="success-message">Order placed successffuly!</div>
           )}
           {error && (
-            <div className="error-message">An error occured: {error}</div>
+            <div className="error-message">
+              Invalid credentials or Insufficient stock.
+            </div>
           )}
           {isLoading && <div className="loader">Placing order...</div>}
         </div>

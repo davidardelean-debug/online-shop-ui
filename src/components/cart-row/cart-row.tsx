@@ -2,21 +2,23 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CartItem } from "../../entities/CartItem";
 import CartService from "../../services/cart-service";
+import { setCart } from "../../slices/cart-slice";
+import { store } from "../../store";
 
 interface CartRowProps {
   cartItem: CartItem;
   cart: CartItem[];
-  setCart: (newCart: CartItem[]) => void;
 }
 
-const CartRow = ({ cartItem, cart, setCart }: CartRowProps) => {
+const CartRow = ({ cartItem, cart }: CartRowProps) => {
   const { product, quantity } = cartItem;
   const [newQuantity, setQuantity] = useState(quantity);
 
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = parseInt(event.target.value);
     setQuantity(newQuantity);
-    setCart(CartService.updateCartItemQuantity(cartItem, cart, newQuantity));
+    const updatedCart=CartService.updateCartItemQuantity(cartItem, cart, newQuantity);
+    store.dispatch(setCart(updatedCart));
   };
   return (
     <div className="cart-row">
@@ -38,7 +40,7 @@ const CartRow = ({ cartItem, cart, setCart }: CartRowProps) => {
       </span>
       <button
         className="btn remove-cart-item-button"
-        onClick={() => setCart(CartService.removeFromCart(cartItem, cart))}
+        onClick={() => store.dispatch(setCart(CartService.removeFromCart(cartItem, cart)))}
       >
         X
       </button>

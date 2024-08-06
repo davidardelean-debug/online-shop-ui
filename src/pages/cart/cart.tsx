@@ -1,11 +1,12 @@
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CartRow from "../../components/cart-row/cart-row";
 import EmptyCart from "../../components/empty-cart/empty-cart";
-import { useCart } from "../../hooks/use-cart";
 import CartService from "../../services/cart-service";
+import { RootState } from "../../store";
 
 const Cart = () => {
-  const { cart, setCart } = useCart();
+  const cart = useSelector((state: RootState) => state.cart);
   const navigate = useNavigate();
 
   return (
@@ -29,14 +30,12 @@ const Cart = () => {
                 key={cartItem.product.id}
                 cartItem={cartItem}
                 cart={cart}
-                setCart={setCart}
               />
             ))}
             <div className="cart-totals">
               Total:{" "}
               <span className="sum">
-                $
-                {CartService.calculateCartTotal(cart)}
+                ${CartService.calculateCartTotal(cart)}
               </span>
             </div>
           </div>

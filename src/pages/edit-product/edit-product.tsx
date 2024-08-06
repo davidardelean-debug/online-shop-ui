@@ -42,12 +42,12 @@ const EditProduct = () => {
     if (id && productCategories) {
       const updatedProduct = ProductService.generateProduct(
         productCategories,
-        data
+        data,
+        id
       );
 
       if (updatedProduct)
         try {
-          updatedProduct.id = id;
           await updateProduct(updatedProduct).unwrap();
         } catch (error) {
           alert("Failed to update the product.");

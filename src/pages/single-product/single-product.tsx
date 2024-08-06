@@ -29,9 +29,9 @@ const SingleProduct = () => {
 
   const [deleteProduct] = useDeleteProductMutation();
   const handleDelete = async () => {
-    if (confirm(`Are you sure you want to delete ${product?.name}?`)) {
+    if (id && confirm(`Are you sure you want to delete ${product?.name}?`)) {
       try {
-        await deleteProduct(id!).unwrap();
+        await deleteProduct(id).unwrap();
       } catch (error) {
         alert("Failed to delete the product.");
       }

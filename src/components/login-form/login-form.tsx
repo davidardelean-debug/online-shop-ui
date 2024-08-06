@@ -9,7 +9,7 @@ interface LoginFormProps {
   errors: FieldErrors<UserFormData>;
   isSubmitting: boolean;
   isLoading: boolean;
-  loginError: FetchBaseQueryError | SerializedError | undefined;
+  loginError?: FetchBaseQueryError | SerializedError ;
 }
 
 const LoginForm = ({
